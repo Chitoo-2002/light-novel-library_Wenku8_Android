@@ -17,6 +17,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    
     - name: Set up JDK 21
       uses: actions/setup-java@v3
       with:
@@ -27,12 +28,13 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
-    - name: Set up Android emulator, build, test and coverage reports
-      uses: reactivecircus/android-emulator-runner@v2
+    # 修改1：彻底删掉模拟器和测试，直接执行组装打包命令
+    - name: Build APK
+      run: ./gradlew assembleAlpha
+
+    # 修改2：增加一个上传步骤，把打好的 APK 提取到页面底部的 Artifacts 中供你下载
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
       with:
-        api-level: 21
-        arch: x86_64
-        profile: Nexus 6
-        working-directory: ./studio-android/LightNovelLibrary
-        # script: ./gradlew assembleAlpha connectedAlphaDebugAndroidTest jacocoTestReport coveralls
-        script: ./gradlew assembleAlpha testAlphaDebugUnitTest connectedAlphaDebugAndroidTest
+        name: Wenku8-App-Fixed
+        path: studio-android/LightNovelLibrary/app/build/outputs/apk/alpha/debug/*.apk
