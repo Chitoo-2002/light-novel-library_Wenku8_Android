@@ -32,7 +32,7 @@ jobs:
     - name: Build APK
       run: ./gradlew assembleAlpha
 
-    # 修改2：增加一个上传步骤，把打好的 APK 提取到页面底部的 Artifacts 中供你下载
+    # 修改2：增加一个上传步骤，把打好的 APK 提取到页面底部的 Artifacts 中供你下载.
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
